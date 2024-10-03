@@ -1,0 +1,39 @@
+name: trufiu
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=${MAIN_DB_USER}
+      - POSTGRES_PASSWORD=${MAIN_DB_PASSWORD}
+      - POSTGRES_DB=${MAIN_DB_NAME}
+    restart: always
+    volumes:
+      - ~/.postgresql/data:/var/lib/postgresql/data
+    ports:
+      - "${MAIN_DB_PORT}:${MAIN_DB_PORT}"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${MAIN_DB_NAME}", "-U", "${MAIN_DB_USER}" ]
+      start_period: 5s
+      timeout: 1s
+      interval: 10s
+      retries: 10
+
+  fiu:
+    container_name: fiu
+    image: ghcr.io/getbootstack/fiu-service:latest
+    pull_policy: always
+    environment:
+      - MAIN_DB_HOST=postgres
+    env_file:
+      - .env
+    ports:
+      - "${SERVER_HTTP_PORT}:${SERVER_HTTP_PORT}"
+      - "${SERVER_GRPC_PORT}:${SERVER_GRPC_PORT}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    external_links:
+      - postgres:postgres
+    restart: on-failure

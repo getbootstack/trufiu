@@ -1,0 +1,41 @@
+# Mac OS files
+.DS_Store
+*~
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+*.coverprofile
+*.bak
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+*.log
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+.idea/
+vendor/
+tmp/
+
+# Helm related files
+/deploy/charts
+/deploy/**/*.lock
+__debug_*
+
+# Go Workspace related files
+go.work
+go.work.sum
+*.csv
+
+# env files
+# .env
+# .env.*
+# !.env.local
+# !.env.testing
