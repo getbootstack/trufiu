@@ -2,7 +2,6 @@ name: trufiu
 
 services:
   postgres:
-    platform: linux/amd64
     container_name: postgres
     image: postgres:15-alpine
     environment:
@@ -21,8 +20,8 @@ services:
       interval: 10s
       retries: 10
 
-  fiu:
-    container_name: fiu
+  trufiu:
+    container_name: trufiu
     platform: linux/amd64
     image: ghcr.io/getbootstack/fiu-service:latest
     pull_policy: always
